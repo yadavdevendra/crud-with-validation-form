@@ -1,0 +1,20 @@
+.App {
+  height: 100vh;
+  width: 100vw;
+  text-align: center;
+}
+.form {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  background-color: antiquewhite;
+}
+.table{
+
+  border: 2px solid black;
+}
+.action{
+  display: flex;
+}
