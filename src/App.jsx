@@ -13,6 +13,7 @@ const App = () => {
   const [companyname, setCompanyname] = useState("");
   const [isAddButton, setIsAddButton] = useState(true);
   const [ram, setRam] = useState(false);
+  const[show ,setShow] = useState(false)
 
   useEffect(() => {
     if (ram) return;
@@ -72,6 +73,7 @@ const App = () => {
     setEmail(editedata.email);
     setCompanyname(editedata.company.name);
     setIsAddButton(false);
+    setShow(true)
   }
   function handleEdite(e) {
     e.preventDefault();
@@ -95,62 +97,55 @@ const tmp=[];
     setData(tmp);
     setEditId(null);
   }
+  function handleFshow() {
+    setShow(true);
+ 
+  }
+
   return (
     <>
       <div className="container">
-        <form className="form">
-          <h1>Form Handling With Validations</h1>
-          <label>
-            Name:
-            <input type="text" id="name" onChange={handlename} value={name} />
-          </label>
-          <label>
-            UserName:
-            <input
-              type="text"
-              id="username"
-              onChange={handleusername}
-              value={username}
-            />
-          </label>
-          <label>
-            Email:{" "}
-            <input
-              type="text"
-              id="email"
-              onChange={handleemail}
-              value={email}
-            />
-          </label>
-          <label>
-            Phone
-            <input
-              type="text"
-              id="phone"
-              onChange={handlephone}
-              value={phone}
-            />
-          </label>
-          <label>
-            Company Name
-            <input
-              type="text"
-              id="companyname"
-              onChange={handlecompanyname}
-              value={companyname}
-            />
-          </label>
-          {isAddButton && (
-            <button style={{ margin: 20,backgroundColor:"gray" }} onClick={Add}>
-              Add User Deatail
-            </button>
-          )}
-          {!isAddButton && (
-            <button style={{ margin: 20, backgroundColor:"skyblue"}} onClick={handleEdite}>
-              Edit User Deatail
-            </button>
-          )}
-        </form>
+        <h1>Form Handling With Validations</h1>
+        <div className="searchbar">
+          <input className="search" type="search" placeholder="Search...." />
+          <button onClick={handleFshow}> Add user </button>
+        </div>
+        {show && (
+          <form className="form">
+            <label>
+              Name:
+              <input type="text" id="name" onChange={handlename} value={name} />
+            </label>
+            <label>
+              UserName:
+              <input type="text" id="username" onChange={handleusername} value={username}/>
+            </label>
+            <label>
+              Email: <input type="text" id="email" onChange={handleemail} value={email}/>
+            </label>
+            <label>
+              Phone:<input type="text" id="phone" onChange={handlephone} value={phone}/>
+            </label>
+            <label>
+              Company Name:<input type="text" id="companyname" onChange={handlecompanyname}value={companyname}/>
+            </label>
+            {isAddButton && (
+              <button
+                style={{ margin: 20, backgroundColor: "gray" }}
+                onClick={Add}
+              >Add User Deatail
+              </button> 
+              )}
+            {!isAddButton && (
+              <button
+                style={{ margin: 20, backgroundColor: "skyblue" }}
+                onClick={handleEdite}
+              >
+                Edit User Deatail
+              </button>
+            )}
+          </form>
+      )}
         <table className="table">
           <thead>
             <tr>
