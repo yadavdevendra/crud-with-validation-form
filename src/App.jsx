@@ -1,24 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { Form } from "./components/Form";
 // import { data } from "./components/Data";
+
 const App = () => {
   const [data, setData] = useState([]);
-  const [tableData, setTableData] = useState([]);
-  const [id, setId] = useState([]);
+  // const [pdata, setPdata] = useState(false);
   const [name, setName] = useState("");
   const [username, setUserName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
+  const [editId, setEditId] = useState(null);
   const [companyname, setCompanyname] = useState("");
-  // const [newData, setNewData] = useState({
-  //   id: "",
-  //   username: "",
-  //   phoneNumber: "",
-  //   email: "",
-  //   companyName: "",
-  // });
-console.log(name,username);
+  const [isAddButton, setIsAddButton] = useState(true);
+  const [ram, setRam] = useState(false);
+
   useEffect(() => {
+    if (ram) return;
     fetch(`https://jsonplaceholder.typicode.com/users`)
       .then((resp) => resp.json())
       .then((data) => {
@@ -28,126 +25,175 @@ console.log(name,username);
   }, []);
 
   const handlename = (e) => {
-    const { id, value } = e.target;
+    const { value } = e.target;
     setName(value);
-    console.log(value);
   };
   const handleusername = (e) => {
-    const { id, value } = e.target;
+    const { value } = e.target;
     setUserName(value);
-    console.log(value);
   };
   const handlephone = (e) => {
-    const { id, value } = e.target;
+    const { value } = e.target;
     setPhone(value);
-    console.log(value);
   };
   const handleemail = (e) => {
-    const { id, value } = e.target;
+    const { value } = e.target;
     setEmail(value);
-    console.log(value);
   };
   const handlecompanyname = (e) => {
-    const { id, value } = e.target;
+    const { value } = e.target;
     setCompanyname(value);
-    console.log(value);
   };
 
   const Add = (e) => {
     e.preventDefault();
-    // setData([...data, { ...newData, id: Math.random() }]); // for giving the new data some random id
-const max = 50
-// if(max>10){
-//   return max
-// }
-    const newData = {
-      // for enptying the form
-      id: Math.floor(Math.random() * max),
+    function randomInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+    const id = randomInt(11, 50);
+    const newData = {id,name,username,phone,email,company: { name: companyname },};
+    setData([...data, newData]);
+    setName("");
+    setUserName("");
+    setPhone("");
+    setEmail("");
+    setCompanyname("");
+  };
+  function handleDelete(id) {
+    const newdata = data.filter((item) => item.id !== id);
+    setData(newdata);
+  }
+  function handleeditbutton(id) {
+    const editedata = data.find((item) => item.id === id);
+    setEditId(id);
+    setName(editedata.name);
+    setUserName(editedata.username);
+    setPhone(editedata.phone);
+    setEmail(editedata.email);
+    setCompanyname(editedata.company.name);
+    setIsAddButton(false);
+  }
+  function handleEdite(e) {
+    e.preventDefault();
+    // const filtdata = data.filter((item) => item.id !== editId);
+     const editsaveData = {
+      id: editId,
       name,
       username,
       phone,
       email,
       company: { name: companyname },
     };
-    if (true){
-      return false
-    }else{
-    setData([...data, newData ]);
-    }
-    console.log("data ",data.id,newData.id);
-  };
+const tmp=[];
+    data.forEach((item)=>{
+      if(item.id==editId){
+        tmp.push(editsaveData);
+        return;                           
+      }
+      tmp.push(item);
+    })
+    setData(tmp);
+    setEditId(null);
+  }
   return (
     <>
       <div className="container">
-        <div className="">
-          <form className="form">
-            <h1>Form Handling With Validations</h1>
-            <label>
-              Name:
-              <input type="text" id="name" onChange={handlename} value={name} />
-            </label>
-            <label>
-              <input type="text" id="username"onChange={handleusername}value={username}/>
-            </label>
-            <label>
-              Email:{" "}
-              <input
-                type="text"
-                id="email"
-                onChange={handleemail}
-                value={email}
-              />
-            </label>
-            <label>
-              Phone
-              <input
-                type="text"
-                id="phone"
-                onChange={handlephone}
-                value={phone}
-              />
-            </label>
-            <label>
-              Company Name
-              <input
-                type="text"
-                id="companyname"
-                onChange={handlecompanyname}
-                value={companyname}
-              />
-            </label>
-            <button onClick={Add}>Add User Deatail</button>
-            <table className="table">
-              <thead>
-                <tr>
-                  <th id="tr">Id </th>
-                  <th id="tr">User Name</th>
-                  <th id="tr">Phone Number</th>
-                  <th id="tr">Email</th>
-                  <th id="tr">Company Name</th>
-                  <th id="tr">Action</th>
+        <form className="form">
+          <h1>Form Handling With Validations</h1>
+          <label>
+            Name:
+            <input type="text" id="name" onChange={handlename} value={name} />
+          </label>
+          <label>
+            UserName:
+            <input
+              type="text"
+              id="username"
+              onChange={handleusername}
+              value={username}
+            />
+          </label>
+          <label>
+            Email:{" "}
+            <input
+              type="text"
+              id="email"
+              onChange={handleemail}
+              value={email}
+            />
+          </label>
+          <label>
+            Phone
+            <input
+              type="text"
+              id="phone"
+              onChange={handlephone}
+              value={phone}
+            />
+          </label>
+          <label>
+            Company Name
+            <input
+              type="text"
+              id="companyname"
+              onChange={handlecompanyname}
+              value={companyname}
+            />
+          </label>
+          {isAddButton && (
+            <button style={{ margin: 20,backgroundColor:"gray" }} onClick={Add}>
+              Add User Deatail
+            </button>
+          )}
+          {!isAddButton && (
+            <button style={{ margin: 20, backgroundColor:"skyblue"}} onClick={handleEdite}>
+              Edit User Deatail
+            </button>
+          )}
+        </form>
+        <table className="table">
+          <thead>
+            <tr>
+              <th>Id </th>
+              <th>User Name</th>
+              <th>Phone Number</th>
+              <th>Email</th>
+              <th>Company Name</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((data) => {
+              return (
+                <tr key={data.id}>
+                  <td>{data.id}</td>
+                  <td>{data.username}</td>
+                  <td>{data.phone}</td>
+                  <td>{data.email}</td>
+                  <td>{data.company.name}</td>
+                  <td className="action">
+                    <button
+                      className="edite"
+                      onClick={() => {
+                        handleeditbutton(data.id);
+                      }}
+                    >
+                      Edite
+                    </button>
+                    <button
+                      className="delete"
+                      onClick={() => {
+                        handleDelete(data.id);
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {data.map((data) => {
-                  return (
-                    <tr key={data.id}>
-                      <td>{data.id}</td>
-                      <td>{data.username}</td>
-                      <td>{data.phone}</td>
-                      <td>{data.email}</td>
-                      <td>{data.company.name}</td>
-                      <td className="action">
-                        <button className="edite">Edite</button>
-                        <button className="delete">Delete</button>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </form>
-        </div>
+              );
+            })}
+          </tbody>
+        </table>
       </div>
     </>
   );
