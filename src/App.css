@@ -11,12 +11,16 @@
   text-align: center;
 }
 .form {
+  margin-left: 550px;
   margin-top: 10px;
   display: flex;
+  width: fit-content;
   flex-direction: column;
   align-items: center;
-  /* border: 1px solid red; */
-  /* display:none */
+  border: 2px solid whitesmoke;
+  border-radius: 15px;
+  background-color: aqua;
+  
 }
 .table {
   margin-top: 50px;

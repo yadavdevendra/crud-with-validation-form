@@ -14,9 +14,14 @@ const App = () => {
   const [isAddButton, setIsAddButton] = useState(true);
   const [ram, setRam] = useState(false);
   const [show, setShow] = useState(false);
-  const [searchdata,setSearchdata] = useState([])
-  const [error, setError] = useState([]);
-
+  const [searchdata, setSearchdata] = useState([]);
+  const [error, setError] = useState();
+  const [ErrorData, setErrorData] = useState(true);
+  const [emailerror, setEmailerror] = useState(true);
+  const [phoneError, setPhoneError] = useState(true);
+  const [nameerror, setNameerror] = useState(true);
+  const [usernameerror, setUsernameerror] = useState(true);
+  const [companynameerror, setCompanynameerror] = useState(true);
 
   useEffect(() => {
     if (ram) return;
@@ -25,7 +30,7 @@ const App = () => {
       .then((data) => {
         console.log(data);
         setData(data);
-        setSearchdata(data)
+        setSearchdata(data);
       });
   }, []);
 
@@ -49,12 +54,58 @@ const App = () => {
     const { value } = e.target;
     setCompanyname(value);
   };
-   function validation(){
-    if(name ==="" || name.length >3 && name.length <20){
-      setError("please fill the box")
+  function namevalidation() {
+    let nameerror = /^[a-zA-Z\-]+$/;
+    if (name.match(nameerror)) {
+      setNameerror("");
+      return true;
+    } else {
+      setNameerror("please fill this field");
+      return false;
     }
-   }
+  }
+  function usernamevalidation() {
+    let usernameerror = /^[a-zA-Z\-]+$/;
+    if (username.match(usernameerror)) {
+      setUsernameerror("");
+      return true;
+    } else {
+      setUsernameerror("please fill this field");
+      return false;
+    }
+  }
+  function companynamevalidatio() {
+    let emailerr = "^[^s@]+@[^s@]+.[^s@]+$";
+    if (email.match(emailerr)) {
+      setEmailerror("");
+      setEmailerror("");
+      return true;
+    } else {
+      setEmailerror("please type valid email ddress");
+      return false;
+    }
+  }
 
+  function phonevalidation() {
+    var phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+    if (phone.match(phoneno)) {
+      setPhoneError("");
+      return true;
+    } else {
+      setPhoneError("please take 10 digit value");
+      return false;
+    }
+  }
+  function companynamevalidatio() {
+    let error = /^[a-zA-Z\-]+$/;
+    if (name.match(error) || username.match(error)) {
+      setCompanyname("");
+      return true;
+    } else {
+      setCompanyname("please fill this field");
+      return false;
+    }
+  }
   const Add = (e) => {
     e.preventDefault();
     function randomInt(min, max) {
@@ -69,13 +120,26 @@ const App = () => {
       email,
       company: { name: companyname },
     };
-    setData([...data, newData]);
-    setName("");
-    setUserName("");
-    setPhone("");
-    setEmail("");
-    setCompanyname("");
-     validation()
+    // validation();
+    // Emailvalidation();
+    // phonevalidation();
+
+    if (
+      namevalidation() &&
+      usernamevalidation() &&
+      Emailvalidation() &&
+      phonevalidation() &&
+      companynamevalidatio()
+    ) {
+      setData([...data, newData]);
+      setShow(!show);
+
+      setName("");
+      setUserName("");
+      setPhone("");
+      setEmail("");
+      setCompanyname("");
+    }
   };
   function handleDelete(id) {
     const newdata = data.filter((item) => item.id !== id);
@@ -90,12 +154,10 @@ const App = () => {
     setEmail(editedata.email);
     setCompanyname(editedata.company.name);
     setIsAddButton(false);
-    // setShow(true)
-    setShow(!show);
+    setShow(true);
   }
   function handleEdite(e) {
     e.preventDefault();
-    // const filtdata = data.filter((item) => item.id !== editId);
     const editsaveData = {
       id: editId,
       name,
@@ -114,61 +176,47 @@ const App = () => {
     });
     setData(tmp);
     setEditId(null);
-     setShow(!show);
-  }
-  function handleFshow() {
     setShow(!show);
   }
- const Search = (value) => {
-  //  setSearch(value);
-   if (value == "") {
-     setData(searchdata);
-     return;
-   }
+  function handleFshow() {
+    setShow(true);
+  }
+  const Search = (value) => {
+    //  setSearch(value);
+    if (value == "") {
+      setData(searchdata);
+      return;
+    }
 
-   const searchedItem = data?.filter((item) => {
-     if (item.username !== null && item.email !== null) {
-      //  return item.username.toLowerCase().indexOf(value) == -1 ? false : true;
-      return item.username.indexOf(value) == -1 ? false : true;
-     } else return false;
-   });
-   setData(searchedItem);
- }
- function phonemodify(phone) {
-  //  console.log("modify phone", typeof phone); //retun type string
-   phone.slice(0,13)
-   var val = phone.split(" ")[0].split(/[\.\s\(\)-]/).join("");
-   var val1 = val.slice(0,10)
-    return val1
- }
+    const searchedItem = data?.filter((item) => {
+      if (item.username !== null && item.email !== null) {
+        return item.username.toLowerCase().indexOf(value) == 0 ? true : false;
+      } else return false;
+    });
+    setData(searchedItem);
+  };
+  function phonemodify(phone) {
+    //  console.log("modify phone", typeof phone); //retun type string
+    phone.slice(0, 13);
+    var val = phone
+      .split(" ")[0]
+      .split(/[\.\s\(\)-]/)
+      .join("");
+    var val1 = val.slice(0, 10);
+    return val1;
+  }
 
   return (
     <>
       <div className="container">
         <h1>Form Handling With Validations</h1>
-        <div className="searchbar">
-          <input
-            className="search"
-            type="search"
-            placeholder="Search...."
-            onChange={(e) => {
-              Search(e.target.value);
-            }}
-          />
-          <button onClick={handleFshow}> Add user </button>
-        </div>
+
         {show && (
           <form className="form">
             <label>
               Name:
-              <input
-                type="text"
-                id="name"
-                onChange={handlename}
-                value={name}
-                required
-              />
-              {name =='' ?<p>{error}</p>:false}
+              <input type="text" id="name" onChange={handlename} value={name} />
+              <span>{nameerror}</span>
             </label>
 
             <label>
@@ -179,6 +227,7 @@ const App = () => {
                 onChange={handleusername}
                 value={username}
               />
+              <span>{usernameerror}</span>
             </label>
             <label>
               Email:{" "}
@@ -188,7 +237,9 @@ const App = () => {
                 onChange={handleemail}
                 value={email}
               />
+              <span>{emailerror}</span>
             </label>
+
             <label>
               Phone:
               <input
@@ -197,6 +248,7 @@ const App = () => {
                 onChange={handlephone}
                 value={phone}
               />
+              <span>{phoneError}</span>
             </label>
             <label>
               Company Name:
@@ -206,6 +258,7 @@ const App = () => {
                 onChange={handlecompanyname}
                 value={companyname}
               />
+              <span>{companynameerror}</span>
             </label>
             {isAddButton && (
               <button
@@ -225,6 +278,17 @@ const App = () => {
             )}
           </form>
         )}
+        <div className="searchbar">
+          <input
+            className="search"
+            type="search"
+            placeholder="Search...."
+            onChange={(e) => {
+              Search(e.target.value);
+            }}
+          />
+          <button onClick={handleFshow}> Add user </button>
+        </div>
         <table className="table">
           <thead>
             <tr>
