@@ -10,7 +10,7 @@ const App = () => {
   const [editId, setEditId] = useState(null);
   const [companyname, setCompanyname] = useState("");
   const [isAddButton, setIsAddButton] = useState(true);
-  const [ram, setRam] = useState(false);
+  // const [ram, setRam] = useState(false);
   const [show, setShow] = useState(false);
   const [searchdata, setSearchdata] = useState([]);
   const [emailerror, setEmailerror] = useState(true);
@@ -20,7 +20,7 @@ const App = () => {
   const [companynameerror, setCompanynameerror] = useState(true);
 
   useEffect(() => {
-    if (ram) return;
+    // if (ram) return;
     fetch(`https://jsonplaceholder.typicode.com/users`)
       .then((resp) => resp.json())
       .then((data) => {
@@ -31,25 +31,63 @@ const App = () => {
   }, []);
 
   const handlename = (e) => {
+
     const { value } = e.target;
+        let nameerror = /^[a-zA-Z\-]+$/;
+    if(!value.match(nameerror)){
+      // console.log("Error , Name:");
+      setNameerror("please fill this field and not allow space");
+    }else{
+       setNameerror("");
+    }
     setName(value);
   };
   const handleusername = (e) => {
     const { value } = e.target;
+       let usernameerror = /^[a-zA-Z\-]+$/;
+        if (!value.match(usernameerror)) {
+          // console.log("Error , Name:");
+          setUsernameerror("please fill this field and not allow space");
+        } else {
+          setUsernameerror("");
+        }
     setUserName(value);
   };
   const handlephone = (e) => {
     const { value } = e.target;
+    var phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+     if (!value.match(phoneno)) {
+       // console.log("Error , Name:");
+       setPhoneError("please fill this field and not allow space");
+     } else {
+        setPhoneError("");
+     }
     setPhone(value);
   };
   const handleemail = (e) => {
     const { value } = e.target;
+    let emailerr = "^[^s@]+@[^s@]+.[^s@]+$";
+     if (!value.match(emailerr)) {
+       // console.log("Error , Name:");
+       setEmailerror("please fill this field and not allow space");
+     } else {
+       setEmailerror("");
+     }
     setEmail(value);
   };
   const handlecompanyname = (e) => {
     const { value } = e.target;
+    let error = /^[a-zA-Z\-]+$/;
+     if (!value.match(nameerror)) {
+       // console.log("Error , Name:");
+       setCompanynameerror("please fill this field and not allow space");
+     } else {
+       setCompanyname("");
+     }
     setCompanyname(value);
   };
+
+  // validation all field
   function namevalidation() {
     let nameerror = /^[a-zA-Z\-]+$/;
     if (name.match(nameerror)) {
@@ -76,7 +114,7 @@ const App = () => {
       setEmailerror("");
       return true;
     } else {
-      setEmailerror("please type valid email Address like this type 'devyadav3001@gmail.com'");
+      setEmailerror("please type valid email\n Address like this type 'devyadav3001@gmail.com'");
       return false;
     }
   }
