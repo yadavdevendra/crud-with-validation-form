@@ -4,7 +4,6 @@ import { Form } from "./components/Form";
 
 const App = () => {
   const [data, setData] = useState([]);
-  // const [pdata, setPdata] = useState(false);
   const [name, setName] = useState("");
   const [username, setUserName] = useState("");
   const [phone, setPhone] = useState("");
@@ -15,8 +14,6 @@ const App = () => {
   const [ram, setRam] = useState(false);
   const [show, setShow] = useState(false);
   const [searchdata, setSearchdata] = useState([]);
-  const [error, setError] = useState();
-  const [ErrorData, setErrorData] = useState(true);
   const [emailerror, setEmailerror] = useState(true);
   const [phoneError, setPhoneError] = useState(true);
   const [nameerror, setNameerror] = useState(true);
@@ -60,7 +57,7 @@ const App = () => {
       setNameerror("");
       return true;
     } else {
-      setNameerror("please fill this field");
+      setNameerror("please fill this field and not allow space");
       return false;
     }
   }
@@ -74,10 +71,9 @@ const App = () => {
       return false;
     }
   }
-  function companynamevalidatio() {
+  function emailvalidation() {
     let emailerr = "^[^s@]+@[^s@]+.[^s@]+$";
     if (email.match(emailerr)) {
-      setEmailerror("");
       setEmailerror("");
       return true;
     } else {
@@ -96,13 +92,13 @@ const App = () => {
       return false;
     }
   }
-  function companynamevalidatio() {
+  function companynamevalidation() {
     let error = /^[a-zA-Z\-]+$/;
     if (name.match(error) || username.match(error)) {
-      setCompanyname("");
+      setCompanynameerror("");
       return true;
     } else {
-      setCompanyname("please fill this field");
+      setCompanynameerror("please fill this field");
       return false;
     }
   }
@@ -120,25 +116,21 @@ const App = () => {
       email,
       company: { name: companyname },
     };
-    // validation();
-    // Emailvalidation();
-    // phonevalidation();
 
     if (
       namevalidation() &&
       usernamevalidation() &&
-      Emailvalidation() &&
+      emailvalidation() &&
       phonevalidation() &&
-      companynamevalidatio()
+      companynamevalidation()
     ) {
       setData([...data, newData]);
-      setShow(!show);
-
       setName("");
       setUserName("");
       setPhone("");
       setEmail("");
       setCompanyname("");
+      setShow(!show);
     }
   };
   function handleDelete(id) {
@@ -174,15 +166,29 @@ const App = () => {
       }
       tmp.push(item);
     });
-    setData(tmp);
-    setEditId(null);
-    setShow(!show);
+     if (
+       namevalidation() &&
+       usernamevalidation() &&
+       emailvalidation() &&
+       phonevalidation() &&
+       companynamevalidation()
+     ) {
+       setData(tmp);
+       setName("");
+       setUserName("");
+       setPhone("");
+       setEmail("");
+       setCompanyname("");
+       setShow(!show);
+     }
+    
+   
   }
   function handleFshow() {
     setShow(true);
   }
   const Search = (value) => {
-    //  setSearch(value);
+ 
     if (value == "") {
       setData(searchdata);
       return;
@@ -196,7 +202,7 @@ const App = () => {
     setData(searchedItem);
   };
   function phonemodify(phone) {
-    //  console.log("modify phone", typeof phone); //retun type string
+   
     phone.slice(0, 13);
     var val = phone
       .split(" ")[0]
