@@ -12,7 +12,7 @@ const App = () => {
   const [isAddButton, setIsAddButton] = useState(true);
   const [show, setShow] = useState(false);
   const [searchdata, setSearchdata] = useState([]);
-  // Edite 
+  // Edite
   const [emailerror, setEmailerror] = useState(true);
   const [phoneError, setPhoneError] = useState(true);
   const [nameerror, setNameerror] = useState(true);
@@ -21,7 +21,6 @@ const App = () => {
   // const [disabled, setDisabled] = useState(false);
 
   useEffect(() => {
-
     fetch(`https://jsonplaceholder.typicode.com/users`)
       .then((resp) => resp.json())
       .then((data) => {
@@ -40,7 +39,7 @@ const App = () => {
     let nameerror = "[^s]";
     if (!value.match(nameerror)) {
       // console.log("Error , Name:");
-      setNameerror("please fill this field and not allow space");
+      setNameerror("please fill this field");
     } else {
       setNameerror("");
     }
@@ -51,7 +50,7 @@ const App = () => {
     let usernameerror = "[^s]";
     if (!value.match(usernameerror)) {
       // console.log("Error , Name:");
-      setUsernameerror("please fill this field and not allow space");
+      setUsernameerror("please fill this field ");
     } else {
       setUsernameerror("");
     }
@@ -62,7 +61,7 @@ const App = () => {
     var phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
     if (!value.match(phoneno)) {
       // console.log("Error , Name:");
-      setPhoneError("please fill this field and not allow space");
+      setPhoneError("please fill this field");
     } else {
       setPhoneError("");
     }
@@ -73,9 +72,8 @@ const App = () => {
     let emailerr = /^[^s@]/;
     if (!value.match(emailerr)) {
       // console.log("Error , Name:");
-      setEmailerror("email not start with @");
-    }
-    else{
+      setEmailerror("email do not start with @");
+    } else {
       setEmailerror("");
     }
     setEmail(value);
@@ -118,15 +116,31 @@ const App = () => {
     if (email.match(emailerr)) {
       setEmailerror("");
       return true;
-    }else if(email[0] === "@"){
-      setEmailerror("email not start with @")
+    }
+    if (email === "") {
+      setEmailerror("don't empty email inpute");
+      return true;
+    }
+    if (!email.includes("@")) {
+      setEmailerror("email included with @");
+      return true;
+    }
+    if (email[0] === "@") {
+      setEmailerror("do not start with @");
+      return true;
+    }
+
+    if (!email.split("@")[1].includes(".")) {
+      setEmailerror("must have dot . com,in");
+      return true;
+    }
+    if (email.split("@")[1][0] === ".") {
+      setEmailerror("after @ type gmail");
       return true;
     } else {
-      setEmailerror(
-        "please type valid email"
-      );
-      return false;
+      setEmailerror("don't empty email inpute");
     }
+    return false;
   }
 
   function phonevalidation() {
@@ -141,7 +155,7 @@ const App = () => {
   }
   function companynamevalidation() {
     let companynameerror = "[^s]";
-    if (companyname.match(companynameerror) || companyname.match(error)) {
+    if (companyname.match(companynameerror)) {
       setCompanynameerror("");
       return true;
     } else {
@@ -232,15 +246,13 @@ const App = () => {
     }
   }
   function handleFshow() {
-    setShow(true)
-       setName("");
-       setUserName("");
-       setPhone("");
-       setEmail("");
-       setCompanyname("");
- setIsAddButton(true)
-  
-    
+    setShow(true);
+    setName("");
+    setUserName("");
+    setPhone("");
+    setEmail("");
+    setCompanyname("");
+    setIsAddButton(true);
   }
   const Search = (value) => {
     if (value == "") {
@@ -361,17 +373,17 @@ const App = () => {
           </button>
         </div>
         <table className="table">
-            <thead>
-              <tr>
-                <th>Id </th>
-                <th>Name</th>
-                <th>User Name</th>
-                <th>Phone Number</th>
-                <th>Email</th>
-                <th>Company Name</th>
-                <th>Action</th>
-              </tr>
-            </thead>
+          <thead>
+            <tr>
+              <th>Id </th>
+              <th>Name</th>
+              <th>User Name</th>
+              <th>Phone Number</th>
+              <th>Email</th>
+              <th>Company Name</th>
+              <th>Action</th>
+            </tr>
+          </thead>
           <tbody>
             {data.map((data) => {
               return (
