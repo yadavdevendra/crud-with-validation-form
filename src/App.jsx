@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Form } from "./components/Form";
-// import { data } from "./components/Data";
+import './App.css'
 
 const App = () => {
   const [data, setData] = useState([]);
@@ -94,7 +93,7 @@ const App = () => {
   }
   function companynamevalidation() {
     let error = /^[a-zA-Z\-]+$/;
-    if (name.match(error) || username.match(error)) {
+    if (companyname.match(error) || companyname.match(error)) {
       setCompanynameerror("");
       return true;
     } else {
@@ -293,7 +292,7 @@ const App = () => {
               Search(e.target.value);
             }}
           />
-          <button onClick={handleFshow}> Add user </button>
+          <button className="add" onClick={handleFshow}> Add user </button>
         </div>
         <table className="table">
           <thead>
