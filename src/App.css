@@ -19,7 +19,7 @@
   align-items: center;
   border: 2px solid whitesmoke;
   border-radius: 15px;
-  background-color: aqua;
+  background-color: whitesmoke;
   
 }
 .table {
@@ -54,4 +54,7 @@ button{
 .add{
    margin-left: 75px;
   border-radius: 12px;
+}
+span{
+  color: red;
 }

@@ -10,9 +10,9 @@ const App = () => {
   const [editId, setEditId] = useState(null);
   const [companyname, setCompanyname] = useState("");
   const [isAddButton, setIsAddButton] = useState(true);
-  // const [ram, setRam] = useState(false);
   const [show, setShow] = useState(false);
   const [searchdata, setSearchdata] = useState([]);
+  // Edite 
   const [emailerror, setEmailerror] = useState(true);
   const [phoneError, setPhoneError] = useState(true);
   const [nameerror, setNameerror] = useState(true);
@@ -21,7 +21,7 @@ const App = () => {
   // const [disabled, setDisabled] = useState(false);
 
   useEffect(() => {
-    // if (ram) return;
+
     fetch(`https://jsonplaceholder.typicode.com/users`)
       .then((resp) => resp.json())
       .then((data) => {
@@ -37,7 +37,7 @@ const App = () => {
 
   const handlename = (e) => {
     const { value } = e.target;
-    let nameerror = /^[a-zA-Z\-]+$/;
+    let nameerror = "[^s]";
     if (!value.match(nameerror)) {
       // console.log("Error , Name:");
       setNameerror("please fill this field and not allow space");
@@ -48,7 +48,7 @@ const App = () => {
   };
   const handleusername = (e) => {
     const { value } = e.target;
-    let usernameerror = /^[a-zA-Z\-]+$/;
+    let usernameerror = "[^s]";
     if (!value.match(usernameerror)) {
       // console.log("Error , Name:");
       setUsernameerror("please fill this field and not allow space");
@@ -70,18 +70,19 @@ const App = () => {
   };
   const handleemail = (e) => {
     const { value } = e.target;
-    let emailerr = "^[^s@]+@[^s@]+.[^s@]+$";
+    let emailerr = /^[^s@]/;
     if (!value.match(emailerr)) {
       // console.log("Error , Name:");
-      setEmailerror("please fill this field and not allow space");
-    } else {
+      setEmailerror("email not start with @");
+    }
+    else{
       setEmailerror("");
     }
     setEmail(value);
   };
   const handlecompanyname = (e) => {
     const { value } = e.target;
-    let companynameerror = /^[a-zA-Z\-]+$/;
+    let companynameerror = "[^s]";
     if (!value.match(companynameerror)) {
       // console.log("Error , Name:");
       setCompanynameerror("please fill this field and not allow space");
@@ -93,17 +94,17 @@ const App = () => {
 
   // validation all field
   function namevalidation() {
-    let nameerror = /^[a-zA-Z\-]+$/;
+    let nameerror = "[^s]";
     if (name.match(nameerror)) {
       setNameerror("");
       return true;
     } else {
-      setNameerror("please fill this field and not allow space");
+      setNameerror("please fill this field");
       return false;
     }
   }
   function usernamevalidation() {
-    let usernameerror = /^[a-zA-Z\-]+$/;
+    let usernameerror = "[^s]";
     if (username.match(usernameerror)) {
       setUsernameerror("");
       return true;
@@ -113,13 +114,16 @@ const App = () => {
     }
   }
   function emailvalidation() {
-    let emailerr = "^[^s@]+@[^s@]+.[^s@]+$";
+    let emailerr = /^[^s@]+@[^s@]+\.[^s@]+$/;
     if (email.match(emailerr)) {
       setEmailerror("");
       return true;
+    }else if(email[0] === "@"){
+      setEmailerror("email not start with @")
+      return true;
     } else {
       setEmailerror(
-        "please type valid email\n Address like this type 'devyadav3001@gmail.com'"
+        "please type valid email"
       );
       return false;
     }
@@ -136,7 +140,7 @@ const App = () => {
     }
   }
   function companynamevalidation() {
-    let companynameerror = /^[a-zA-Z\-]+$/;
+    let companynameerror = "[^s]";
     if (companyname.match(companynameerror) || companyname.match(error)) {
       setCompanynameerror("");
       return true;
@@ -228,7 +232,15 @@ const App = () => {
     }
   }
   function handleFshow() {
-    setShow(true);
+    setShow(true)
+       setName("");
+       setUserName("");
+       setPhone("");
+       setEmail("");
+       setCompanyname("");
+ setIsAddButton(true)
+  
+    
   }
   const Search = (value) => {
     if (value == "") {
@@ -271,9 +283,8 @@ const App = () => {
                 value={name}
                 // disabled={disabled}
               />
-              <span>{nameerror}</span>
             </label>
-
+            <span>{nameerror}</span>
             <label>
               UserName:
               <input
@@ -283,8 +294,8 @@ const App = () => {
                 value={username}
                 // disabled={disabled}
               />
-              <span>{usernameerror}</span>
             </label>
+            <span>{usernameerror}</span>
             <label>
               Email:{" "}
               <input
@@ -294,9 +305,8 @@ const App = () => {
                 value={email}
                 // disabled={disabled}
               />
-              <span>{emailerror}</span>
             </label>
-
+            <span>{emailerror}</span>
             <label>
               Phone:
               <input
@@ -306,8 +316,8 @@ const App = () => {
                 value={phone}
                 // disabled={disabled}
               />
-              <span>{phoneError}</span>
             </label>
+            <span>{phoneError}</span>
             <label>
               Company Name:
               <input
@@ -317,14 +327,14 @@ const App = () => {
                 value={companyname}
                 // disabled={disabled}
               />
-              <span>{companynameerror}</span>
             </label>
+            <span>{companynameerror}</span>
             {isAddButton && (
               <button
                 style={{ margin: 20, backgroundColor: "gray" }}
                 onClick={Add}
               >
-                Add User Deatail
+                Add User Details
               </button>
             )}
             {!isAddButton && (
@@ -332,7 +342,7 @@ const App = () => {
                 style={{ margin: 20, backgroundColor: "skyblue" }}
                 onClick={handleEdite}
               >
-                Edit User Deatail
+                Edit User Details
               </button>
             )}
           </form>
@@ -347,26 +357,27 @@ const App = () => {
             }}
           />
           <button className="add" onClick={handleFshow}>
-            {" "}
-            Add user{" "}
+            Add user
           </button>
         </div>
         <table className="table">
-          <thead>
-            <tr>
-              <th>Id </th>
-              <th>User Name</th>
-              <th>Phone Number</th>
-              <th>Email</th>
-              <th>Company Name</th>
-              <th>Action</th>
-            </tr>
-          </thead>
+            <thead>
+              <tr>
+                <th>Id </th>
+                <th>Name</th>
+                <th>User Name</th>
+                <th>Phone Number</th>
+                <th>Email</th>
+                <th>Company Name</th>
+                <th>Action</th>
+              </tr>
+            </thead>
           <tbody>
             {data.map((data) => {
               return (
                 <tr key={data.id}>
                   <td>{data.id}</td>
+                  <td>{data.name}</td>
                   <td>{data.username}</td>
                   <td>{data.phone}</td>
                   <td>{data.email}</td>
