@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import './App.css'
+import "./App.css";
 
 const App = () => {
   const [data, setData] = useState([]);
@@ -18,73 +18,76 @@ const App = () => {
   const [nameerror, setNameerror] = useState(true);
   const [usernameerror, setUsernameerror] = useState(true);
   const [companynameerror, setCompanynameerror] = useState(true);
-  const [disable, setDisable] = useState(true);
+  // const [disabled, setDisabled] = useState(false);
 
   useEffect(() => {
     // if (ram) return;
     fetch(`https://jsonplaceholder.typicode.com/users`)
       .then((resp) => resp.json())
       .then((data) => {
+        const newdata = data.map((item) => {
+          const ph = phonemodify(item.phone);
+          return { ...item, phone: ph };
+        });
         console.log(data);
-        setData(data);
+        setData(newdata);
         setSearchdata(data);
       });
   }, []);
 
   const handlename = (e) => {
-
     const { value } = e.target;
-        let nameerror = /^[a-zA-Z\-]+$/;
-    if(!value.match(nameerror)){
+    let nameerror = /^[a-zA-Z\-]+$/;
+    if (!value.match(nameerror)) {
       // console.log("Error , Name:");
       setNameerror("please fill this field and not allow space");
-    }else{
-       setNameerror("");
+    } else {
+      setNameerror("");
     }
     setName(value);
   };
   const handleusername = (e) => {
     const { value } = e.target;
-       let usernameerror = /^[a-zA-Z\-]+$/;
-        if (!value.match(usernameerror)) {
-          // console.log("Error , Name:");
-          setUsernameerror("please fill this field and not allow space");
-        } else {
-          setUsernameerror("");
-        }
+    let usernameerror = /^[a-zA-Z\-]+$/;
+    if (!value.match(usernameerror)) {
+      // console.log("Error , Name:");
+      setUsernameerror("please fill this field and not allow space");
+    } else {
+      setUsernameerror("");
+    }
     setUserName(value);
   };
   const handlephone = (e) => {
     const { value } = e.target;
     var phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
-     if (!value.match(phoneno)) {
-       // console.log("Error , Name:");
-       setPhoneError("please fill this field and not allow space");
-     } else {
-        setPhoneError("");
-     }
+    if (!value.match(phoneno)) {
+      // console.log("Error , Name:");
+      setPhoneError("please fill this field and not allow space");
+    } else {
+      setPhoneError("");
+    }
     setPhone(value);
   };
   const handleemail = (e) => {
     const { value } = e.target;
     let emailerr = "^[^s@]+@[^s@]+.[^s@]+$";
-     if (!value.match(emailerr)) {
-       // console.log("Error , Name:");
-       setEmailerror("please fill this field and not allow space");
-     } else {
-       setEmailerror("");
-     }
+    if (!value.match(emailerr)) {
+      // console.log("Error , Name:");
+      setEmailerror("please fill this field and not allow space");
+    } else {
+      setEmailerror("");
+    }
     setEmail(value);
   };
   const handlecompanyname = (e) => {
     const { value } = e.target;
-    let companynameerror= /^[a-zA-Z\-]+$/;
-     if (!value.match(companynameerror)) {
-       // console.log("Error , Name:");
-       setCompanynameerror("please fill this field and not allow space");
-     } else {
-       setCompanynameerror("");
-     }
+    let companynameerror = /^[a-zA-Z\-]+$/;
+    if (!value.match(companynameerror)) {
+      // console.log("Error , Name:");
+      setCompanynameerror("please fill this field and not allow space");
+    } else {
+      setCompanynameerror("");
+    }
     setCompanyname(value);
   };
 
@@ -115,7 +118,9 @@ const App = () => {
       setEmailerror("");
       return true;
     } else {
-      setEmailerror("please type valid email\n Address like this type 'devyadav3001@gmail.com'");
+      setEmailerror(
+        "please type valid email\n Address like this type 'devyadav3001@gmail.com'"
+      );
       return false;
     }
   }
@@ -142,6 +147,7 @@ const App = () => {
   }
   const Add = (e) => {
     e.preventDefault();
+    // setDisabled(!disabled);
     function randomInt(min, max) {
       return Math.floor(Math.random() * (max - min + 1) + min);
     }
@@ -188,6 +194,7 @@ const App = () => {
   }
   function handleEdite(e) {
     e.preventDefault();
+
     const editsaveData = {
       id: editId,
       name,
@@ -204,29 +211,26 @@ const App = () => {
       }
       tmp.push(item);
     });
-     if (
-       namevalidation() &&
-       usernamevalidation() &&
-       emailvalidation() &&
-       phonevalidation() &&
-       companynamevalidation()
-     ) {
-       setData(tmp);
-       setName("");
-       setUserName("");
-       setPhone("");
-       setEmail("");
-       setCompanyname("");
-       setShow(!show);
-     }
-    
-   
+    if (
+      namevalidation() &&
+      usernamevalidation() &&
+      emailvalidation() &&
+      phonevalidation() &&
+      companynamevalidation()
+    ) {
+      setData(tmp);
+      setName("");
+      setUserName("");
+      setPhone("");
+      setEmail("");
+      setCompanyname("");
+      setShow(!show);
+    }
   }
   function handleFshow() {
     setShow(true);
   }
   const Search = (value) => {
- 
     if (value == "") {
       setData(searchdata);
       return;
@@ -234,13 +238,14 @@ const App = () => {
 
     const searchedItem = data?.filter((item) => {
       if (item.username !== null && item.email !== null) {
-        return item.username.toLowerCase().indexOf(value.toLowerCase()) == 0 ? true : false;
+        return item.username.toLowerCase().indexOf(value.toLowerCase()) == 0
+          ? true
+          : false;
       } else return false;
     });
     setData(searchedItem);
   };
   function phonemodify(phone) {
-   
     phone.slice(0, 13);
     var val = phone
       .split(" ")[0]
@@ -259,7 +264,13 @@ const App = () => {
           <form className="form">
             <label>
               Name:
-              <input type="text" id="name" onChange={handlename} value={name} />
+              <input
+                type="text"
+                id="name"
+                onChange={handlename}
+                value={name}
+                // disabled={disabled}
+              />
               <span>{nameerror}</span>
             </label>
 
@@ -270,6 +281,7 @@ const App = () => {
                 id="username"
                 onChange={handleusername}
                 value={username}
+                // disabled={disabled}
               />
               <span>{usernameerror}</span>
             </label>
@@ -280,6 +292,7 @@ const App = () => {
                 id="email"
                 onChange={handleemail}
                 value={email}
+                // disabled={disabled}
               />
               <span>{emailerror}</span>
             </label>
@@ -291,6 +304,7 @@ const App = () => {
                 id="phone"
                 onChange={handlephone}
                 value={phone}
+                // disabled={disabled}
               />
               <span>{phoneError}</span>
             </label>
@@ -301,6 +315,7 @@ const App = () => {
                 id="companyname"
                 onChange={handlecompanyname}
                 value={companyname}
+                // disabled={disabled}
               />
               <span>{companynameerror}</span>
             </label>
@@ -331,7 +346,10 @@ const App = () => {
               Search(e.target.value);
             }}
           />
-          <button className="add" onClick={handleFshow}> Add user </button>
+          <button className="add" onClick={handleFshow}>
+            {" "}
+            Add user{" "}
+          </button>
         </div>
         <table className="table">
           <thead>
@@ -350,7 +368,7 @@ const App = () => {
                 <tr key={data.id}>
                   <td>{data.id}</td>
                   <td>{data.username}</td>
-                  <td>{phonemodify(data.phone)}</td>
+                  <td>{data.phone}</td>
                   <td>{data.email}</td>
                   <td>{data.company.name}</td>
                   <td className="action">
