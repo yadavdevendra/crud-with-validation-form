@@ -76,7 +76,7 @@ const App = () => {
       setEmailerror("");
       return true;
     } else {
-      setEmailerror("please type valid email ddress");
+      setEmailerror("please type valid email Address like this type 'devyadav3001@gmail.com'");
       return false;
     }
   }
