@@ -77,12 +77,12 @@ const App = () => {
   };
   const handlecompanyname = (e) => {
     const { value } = e.target;
-    let error = /^[a-zA-Z\-]+$/;
-     if (!value.match(nameerror)) {
+    let companynameerror= /^[a-zA-Z\-]+$/;
+     if (!value.match(companynameerror)) {
        // console.log("Error , Name:");
        setCompanynameerror("please fill this field and not allow space");
      } else {
-       setCompanyname("");
+       setCompanynameerror("");
      }
     setCompanyname(value);
   };
@@ -130,8 +130,8 @@ const App = () => {
     }
   }
   function companynamevalidation() {
-    let error = /^[a-zA-Z\-]+$/;
-    if (companyname.match(error) || companyname.match(error)) {
+    let companynameerror = /^[a-zA-Z\-]+$/;
+    if (companyname.match(companynameerror) || companyname.match(error)) {
       setCompanynameerror("");
       return true;
     } else {
