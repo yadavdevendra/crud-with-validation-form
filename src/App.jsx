@@ -25,13 +25,13 @@ const App = () => {
     fetch(`https://jsonplaceholder.typicode.com/users`)
       .then((resp) => resp.json())
       .then((data) => {
-        const newdata = data.map((item) => {
+        const newdata1 = data.map((item) => {
           const ph = phonemodify(item.phone);
           return { ...item, phone: ph };
         });
         console.log(data);
-        setData(newdata);
-        setSearchdata(data);
+        setData(newdata1);
+        setSearchdata(newdata1);
       });
   }, []);
 
