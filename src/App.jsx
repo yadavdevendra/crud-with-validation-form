@@ -18,6 +18,7 @@ const App = () => {
   const [nameerror, setNameerror] = useState(true);
   const [usernameerror, setUsernameerror] = useState(true);
   const [companynameerror, setCompanynameerror] = useState(true);
+  const [disable, setDisable] = useState(true);
 
   useEffect(() => {
     // if (ram) return;
@@ -233,7 +234,7 @@ const App = () => {
 
     const searchedItem = data?.filter((item) => {
       if (item.username !== null && item.email !== null) {
-        return item.username.toLowerCase().indexOf(value) == 0 ? true : false;
+        return item.username.toLowerCase().indexOf(value.toLowerCase()) == 0 ? true : false;
       } else return false;
     });
     setData(searchedItem);
