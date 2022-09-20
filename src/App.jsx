@@ -57,7 +57,7 @@ const App = () => {
 
   const handleemail = (e) => {
     const { value } = e.target;
-    let emailerr = /^[^s@]+@[^s@]+\.[^s@]+$/;
+    let emailerr = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if (!email.match(emailerr)) {
       setEmailerror("please fill the valid email");
     } else {
@@ -109,7 +109,7 @@ const App = () => {
     }
   }
   function emailvalidation() {
-    let emailerr = /^[^s@]+@[^s@]+\.[^s@]+$/;
+    let emailerr = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if (email.match(emailerr)) {
       setEmailerror("");
       return true;
@@ -359,7 +359,7 @@ const App = () => {
               <th>Company Name</th>
               <th>Action</th>
             </tr>
-          </thead>:""}
+          </thead>:true}
           <tbody>
             {data.map((data) => {
               return (
