@@ -330,7 +330,7 @@ const App = () => {
                 style={{ margin: 20, backgroundColor: "skyblue" }}
                 onClick={handleEdite}
               >
-                Edit User Details
+                {state} 
               </button>
             )}
           </form>
@@ -349,17 +349,21 @@ const App = () => {
           </button>
         </div>
         <table className="table">
-          {(data.length !==0)?<thead>
-            <tr>
-              <th>Id </th>
-              <th>Name</th>
-              <th>User Name</th>
-              <th>Phone Number</th>
-              <th>Email</th>
-              <th>Company Name</th>
-              <th>Action</th>
-            </tr>
-          </thead>:true}
+          {data.length !== 0 ? (
+            <thead>
+              <tr>
+                <th>Id </th>
+                <th>Name</th>
+                <th>User Name</th>
+                <th>Phone Number</th>
+                <th>Email</th>
+                <th>Company Name</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+          ) : (
+            true
+          )}
           <tbody>
             {data.map((data) => {
               return (
@@ -377,7 +381,7 @@ const App = () => {
                         handleeditbutton(data.id);
                       }}
                     >
-                      Edite
+                      Edit
                     </button>
                     <button
                       className="delete"
