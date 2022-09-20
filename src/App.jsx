@@ -38,8 +38,7 @@ const App = () => {
     const { value } = e.target;
     let nameerror = "[^s]";
     if (!value.match(nameerror)) {
-      // console.log("Error , Name:");
-      setNameerror("please fill this field");
+      setNameerror("please fill teh valid name");
     } else {
       setNameerror("");
     }
@@ -47,43 +46,41 @@ const App = () => {
   };
   const handleusername = (e) => {
     const { value } = e.target;
-    let usernameerror = "[^s]";
-    if (!value.match(usernameerror)) {
-      // console.log("Error , Name:");
-      setUsernameerror("please fill this field ");
+    let nameerror = "[^s]";
+    if (!value.match(nameerror)) {
+      setUsernameerror("please fill teh valid username");
     } else {
       setUsernameerror("");
     }
     setUserName(value);
   };
-  const handlephone = (e) => {
-    const { value } = e.target;
-    var phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
-    if (!value.match(phoneno)) {
-      // console.log("Error , Name:");
-      setPhoneError("please fill this field");
-    } else {
-      setPhoneError("");
-    }
-    setPhone(value);
-  };
+
   const handleemail = (e) => {
     const { value } = e.target;
-    let emailerr = /^[^s@]/;
-    if (!value.match(emailerr)) {
-      // console.log("Error , Name:");
-      setEmailerror("email do not start with @");
+    let emailerr = /^[^s@]+@[^s@]+\.[^s@]+$/;
+    if (!email.match(emailerr)) {
+      setEmailerror("please fill the valid email");
     } else {
       setEmailerror("");
     }
     setEmail(value);
+  };
+  const handlephone = (e) => {
+    const { value } = e.target;
+    var phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+    if (!value.match(phoneno)) {
+      setPhoneError("please fill valid phone");
+    } else {
+      setPhoneError("");
+    }
+    setPhone(value);
   };
   const handlecompanyname = (e) => {
     const { value } = e.target;
     let companynameerror = "[^s]";
     if (!value.match(companynameerror)) {
       // console.log("Error , Name:");
-      setCompanynameerror("please fill this field and not allow space");
+      setCompanynameerror("please fill the company Name");
     } else {
       setCompanynameerror("");
     }
@@ -97,7 +94,7 @@ const App = () => {
       setNameerror("");
       return true;
     } else {
-      setNameerror("please fill this field");
+      setNameerror("please fill teh valid name");
       return false;
     }
   }
@@ -107,7 +104,7 @@ const App = () => {
       setUsernameerror("");
       return true;
     } else {
-      setUsernameerror("please fill this field");
+      setUsernameerror("please fill the valid username");
       return false;
     }
   }
@@ -116,31 +113,10 @@ const App = () => {
     if (email.match(emailerr)) {
       setEmailerror("");
       return true;
-    }
-    if (email === "") {
-      setEmailerror("don't empty email inpute");
-      return true;
-    }
-    if (!email.includes("@")) {
-      setEmailerror("email included with @");
-      return true;
-    }
-    if (email[0] === "@") {
-      setEmailerror("do not start with @");
-      return true;
-    }
-
-    if (!email.split("@")[1].includes(".")) {
-      setEmailerror("must have dot . com,in");
-      return true;
-    }
-    if (email.split("@")[1][0] === ".") {
-      setEmailerror("after @ type gmail");
-      return true;
     } else {
-      setEmailerror("don't empty email inpute");
+      setEmailerror("please fill the valid email");
+      return false;
     }
-    return false;
   }
 
   function phonevalidation() {
@@ -262,9 +238,9 @@ const App = () => {
 
     const searchedItem = data?.filter((item) => {
       if (item.username !== null && item.email !== null) {
-        return item.username.toLowerCase().indexOf(value.toLowerCase()) == 0
-          ? true
-          : false;
+        return item.username.toLowerCase().indexOf(value.toLowerCase()) == -1
+          ? false
+          : true;
       } else return false;
     });
     setData(searchedItem);
@@ -373,7 +349,7 @@ const App = () => {
           </button>
         </div>
         <table className="table">
-          <thead>
+          {(data.length !==0)?<thead>
             <tr>
               <th>Id </th>
               <th>Name</th>
@@ -383,7 +359,7 @@ const App = () => {
               <th>Company Name</th>
               <th>Action</th>
             </tr>
-          </thead>
+          </thead>:""}
           <tbody>
             {data.map((data) => {
               return (
