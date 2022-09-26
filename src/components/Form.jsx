@@ -24,10 +24,8 @@ export default function Form() {
   const [successMessage, setSuccessMessage] = useState("");
   // const { state } = useLocation();
   const navigate = useNavigate();
-   let location = useLocation();
-
-  let Regex =
-    /^[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*@[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*$/gm;
+  let location = useLocation();
+  let Regex = /(\<|^)[\w\d._%+-]+@(?:[\w\d-]+\.)+(\w{2,})(\>|$)/g;
   // let phoneRegex = /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/;
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -86,8 +84,7 @@ export default function Form() {
     setCompany("");
     // setShow(!show);
 
-      navigate("/", { state: {adddata ,stop:true}});
-
+    navigate("/", { state: { adddata, stop: true } });
   };
 
   return (
