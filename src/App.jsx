@@ -28,7 +28,7 @@ const App = () => {
           const ph = phonemodify(item.phone);
           return { ...item, phone: ph };
         });
-        console.log(data);
+        // console.log(data);
         setData(newdata1);
         setSearchdata(newdata1);
       });
@@ -330,7 +330,7 @@ const App = () => {
                 style={{ margin: 20, backgroundColor: "skyblue" }}
                 onClick={handleEdite}
               >
-                {state} 
+                Edit User Details
               </button>
             )}
           </form>
