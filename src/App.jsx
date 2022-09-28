@@ -57,8 +57,8 @@ const App = () => {
 
   const handleemail = (e) => {
     const { value } = e.target;
-    let emailerr =/(\<|^)[\w\d._%+-]+@(?:[\w\d-]+\.)+(\w{2,})(\>|$)/g;
-    if (!email.match(emailerr)) {
+    let emailerr = /(\<|^)[\w\d._%+-]+@(?:[\w\d-]+\.)+(\w{2,})(\>|$)/
+    if (!value.match(emailerr)) {
       setEmailerror("please fill the valid email");
     } else {
       setEmailerror("");
@@ -109,7 +109,7 @@ const App = () => {
     }
   }
   function emailvalidation() {
-    let emailerr =/(\<|^)[\w\d._%+-]+@(?:[\w\d-]+\.)+(\w{2,})(\>|$)/g;
+    let emailerr = /(\<|^)[\w\d._%+-]+@(?:[\w\d-]+\.)+(\w{2,})(\>|$)/;
     if (email.match(emailerr)) {
       setEmailerror("");
       return true;
